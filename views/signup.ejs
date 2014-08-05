@@ -6,15 +6,8 @@
   <body>
 
   <h1> Sign Up Form</h1>
-
-  <p style = "color:red;">
-    <% if(message) { %>
-    <%= message %>
-    <% } %>
-  </p>
-  <br>
   
-  <form action="/submit" method="post">
+  <form action="/signup" method="post">
 
       <p>
         <label for="email">Email</label>
@@ -23,7 +16,7 @@
 
       <p>
         <label for="username">Username</label>
-        <input type="text" name="username" id="username" autofocus value = <%= username %>>
+        <input type="text" name="username" id="username">
       </p>
 
       <p>

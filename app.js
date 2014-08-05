@@ -23,28 +23,40 @@ app.use(bodyParser.urlencoded({extended: true}));
 // serialize function (store id at user login)
 
 
-// deserialize function (check user id for login)
+// deserialize function (check user id for login, if not logged in end session...cookie explodes)
 
 
 // HOME ROUTES
 app.get('/', function (req, res){
-  res.render('home');
+  res.render('index');
 });
 
 
 // RESULTS ROUTES
+app.get('/results', function (req,res){
+  res.render('results');
+});
 
 
 // SIGNUP ROUTES
+app.get('/signup', function (req,res){
+  res.render('signup');
+});
 
 
 // LOGIN ROUTES
+app.get('/login', function (req,res){
+  res.render('login');
+});
 
 
 // LOGOUT ROUTES
 
 
 // 404 ROUTES
+app.get('*', function (req, res){
+  res.render('404');
+});
 
 
 // SERVER LISTENING EVENT
