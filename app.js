@@ -26,9 +26,15 @@ app.use(bodyParser.urlencoded({extended: true}));
 // deserialize function (check user id for login, if not logged in end session...cookie explodes)
 
 
-// HOME ROUTES
+// INDEX ROUTES
 app.get('/', function (req, res){
   res.render('index');
+});
+
+
+// HOME ROUTES
+app.get('/submit', function (req,res){
+  res.render('home');
 });
 
 
@@ -43,10 +49,18 @@ app.get('/signup', function (req,res){
   res.render('signup');
 });
 
+app.post('/signup', function (req,res){
+  res.render('signup');
+});
+
 
 // LOGIN ROUTES
 app.get('/login', function (req,res){
   res.render('login');
+});
+
+app.post('/login', function (req,res){
+  res.render('home');
 });
 
 
