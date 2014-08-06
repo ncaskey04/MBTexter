@@ -34,10 +34,12 @@ app.get('/', function (req, res){
 
 // HOME ROUTES
 app.get('/submit', function (req,res){
-  res.render('home');
+  console.log(req.query.inputText);
+  res.render('results', {url: req.query.inputText});
 });
 
-
+"defines an express route for a GET request to the path /submit, whose handler is"
+" "
 // RESULTS ROUTES
 app.get('/results', function (req,res){
   res.render('results');
