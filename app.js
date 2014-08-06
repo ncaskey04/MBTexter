@@ -35,11 +35,16 @@ app.get('/', function (req, res){
 // HOME ROUTES
 app.get('/submit', function (req,res){
   console.log(req.query.inputText);
-  res.render('results', {url: req.query.inputText});
+  //var srcUrl = "http://uclassify.com/browse/prfekt/Myers%20Briggs%20Lifestyle/ClassifyUrl?readkey=14KCtAbIA3D5KNDRIHYu0dUEOg&url=vajrapani666.tumblr.com&output=json";
+
+  var result = '{"version": "1.00","success": true,"statusCode": 2000, "errorMessage": "","cls1": {"Judging": 0.420306,"Perceiving": 0.579694}}';
+  var data = JSON.parse(result);
+  console.log(data);
+  res.render('results', {typeResult: data});
 });
 
-"defines an express route for a GET request to the path /submit, whose handler is"
-" "
+// "defines an express route for a GET request to the path /submit, whose handler is"
+// " "
 // RESULTS ROUTES
 app.get('/results', function (req,res){
   res.render('results');
