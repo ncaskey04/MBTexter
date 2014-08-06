@@ -7,6 +7,7 @@ var express = require('express'),
     cookieSession = require('cookie-session'),
     flash = require('connect-flash'),
     request = require('request'),
+    async = require('async'),
     app = express();
     // db = require('./models/index');
 
@@ -41,41 +42,31 @@ app.get('/submit', function (req,res){
   // var result = '{"version": "1.00","success": true,"statusCode": 2000, "errorMessage": "","cls1": {"Judging": 0.420306,"Perceiving": 0.579694}}';
 
   var query = req.query.inputURL;
-  var ieUrl = "http://uclassify.com/browse/prfekt/Myers%20Briggs%20Attitude/ClassifyUrl?readkey=14KCtAbIA3D5KNDRIHYu0dUEOg&url=http%3a%2f%2fblog.uclassify.com&output=json";
-  var snUrl = "http://uclassify.com/browse/prfekt/Myers%20Briggs%20Perceiving%20Function/ClassifyUrl?readkey=14KCtAbIA3D5KNDRIHYu0dUEOg&url=http%3a%2f%2fblog.uclassify.com&output=json";
-  var tfUrl = "http://uclassify.com/browse/prfekt/Myers%20Briggs%20Judging%20Function/ClassifyUrl?readkey=14KCtAbIA3D5KNDRIHYu0dUEOg&url=http%3a%2f%2fblog.uclassify.com&output=json";
-  var jpUrl = "http://uclassify.com/browse/prfekt/Myers%20Briggs%20Lifestyle/ClassifyUrl?readkey=14KCtAbIA3D5KNDRIHYu0dUEOg&url=vajrapani666.tumblr.com&output=json";
+  var ieUrl = "http://uclassify.com/browse/prfekt/Myers%20Briggs%20Attitude/ClassifyUrl?readkey=14KCtAbIA3D5KNDRIHYu0dUEOg&url=" + query + "&output=json";
+  var snUrl = "http://uclassify.com/browse/prfekt/Myers%20Briggs%20Perceiving%20Function/ClassifyUrl?readkey=14KCtAbIA3D5KNDRIHYu0dUEOg&url=" + query + "&output=json";
+  var tfUrl = "http://uclassify.com/browse/prfekt/Myers%20Briggs%20Judging%20Function/ClassifyUrl?readkey=14KCtAbIA3D5KNDRIHYu0dUEOg&url=" + query + "&output=json";
+  var jpUrl = "http://uclassify.com/browse/prfekt/Myers%20Briggs%20Lifestyle/ClassifyUrl?readkey=14KCtAbIA3D5KNDRIHYu0dUEOg&url=" + query + "&output=json";
 
-    request(ieUrl, function (error,response,body){
-    var attitudeData = JSON.parse(body);
-    //console.log(attitudeData);
-    // res.render('results', {attitudeData: attitudeData});
+    // refactored api request using async
 
-      request(snUrl, function (error,response,body){
-        var perceivingData = JSON.parse(body);
-        // console.log(perceivingData);
-        // res.render('results', {attitudeData: attitudeData, perceivingData: perceivingData});
-
-        request(tfUrl, function (error,response,body){
-          var  judgingData = JSON.parse(body);
-          // console.log(judgingData);
-          // res.render('results', {attitudeData: attitudeData, perceivingData: perceivingData, judgingData: judgingData});
-
-          request(jpUrl, function (error, response, body){
-            var lifestyleData = JSON.parse(body);
-            // console.log(lifestyleData);
-            res.render('results', {attitudeData: attitudeData, perceivingData: perceivingData, judgingData: judgingData, lifestyleData: lifestyleData});
-          });
-
+    async.map([
+        ieUrl,
+        snUrl,
+        tfUrl,
+        jpUrl
+      ], 
+      function(url, done){
+        request(url, function (error,response,body){
+          var data = JSON.parse(body);
+          done(null, data);
         });
-      });
-  });
-  
-  
+      }, 
+      function(err, results){
+        res.render('results', {attitudeData: results[0], perceivingData: results[1], judgingData: results[2], lifestyleData: results[3]});
+    });
 });
 
-// "defines an express route for a GET request to the path /submit, whose handler is"
-// " "
+
 // RESULTS ROUTES
 app.get('/results', function (req,res){
   res.render('results');
