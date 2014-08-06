@@ -36,17 +36,21 @@ app.get('/', function (req, res){
 // HOME ROUTES
 app.get('/submit', function (req,res){
 
-  //console.log(req.query.inputURL);
+  // console.log(req.query.inputURL);
+  // var jpUrl = "http://uclassify.com/browse/prfekt/Myers%20Briggs%20Lifestyle/ClassifyUrl?readkey=14KCtAbIA3D5KNDRIHYu0dUEOg&url= " + query + " &output=json";
+  // var result = '{"version": "1.00","success": true,"statusCode": 2000, "errorMessage": "","cls1": {"Judging": 0.420306,"Perceiving": 0.579694}}';
+
   var query = req.query.inputURL;
-//  var jpUrl = "http://uclassify.com/browse/prfekt/Myers%20Briggs%20Lifestyle/ClassifyUrl?readkey=14KCtAbIA3D5KNDRIHYu0dUEOg&url= " + query + " &output=json";
+  var ieUrl = "http://uclassify.com/browse/prfekt/Myers%20Briggs%20Attitude/ClassifyUrl?readkey=14KCtAbIA3D5KNDRIHYu0dUEOg&url=http%3a%2f%2fblog.uclassify.com&output=json";
+  var snUrl = "http://uclassify.com/browse/prfekt/Myers%20Briggs%20Perceiving%20Function/ClassifyUrl?readkey=14KCtAbIA3D5KNDRIHYu0dUEOg&url=http%3a%2f%2fblog.uclassify.com&output=json";
+  var tfUrl = "http://uclassify.com/browse/prfekt/Myers%20Briggs%20Judging%20Function/ClassifyUrl?readkey=14KCtAbIA3D5KNDRIHYu0dUEOg&url=http%3a%2f%2fblog.uclassify.com&output=json";
   var jpUrl = "http://uclassify.com/browse/prfekt/Myers%20Briggs%20Lifestyle/ClassifyUrl?readkey=14KCtAbIA3D5KNDRIHYu0dUEOg&url=vajrapani666.tumblr.com&output=json";
 
-  //var result = '{"version": "1.00","success": true,"statusCode": 2000, "errorMessage": "","cls1": {"Judging": 0.420306,"Perceiving": 0.579694}}';
-  
-  request(jpUrl, function(error,response,body){
+    request(ieUrl, function(error,response,body){
     //console.log(body);
-    var data = JSON.parse(body);
-    res.render('results', {typeResult: data});
+    var attitudeData = JSON.parse(body);
+
+    res.render('results', {attitudeData: attitudeData});
   });
   
   
