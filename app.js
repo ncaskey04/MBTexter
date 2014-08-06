@@ -112,6 +112,6 @@ app.get('*', function (req, res){
 
 
 // SERVER LISTENING EVENT
-app.listen(3000, function(req,res){
-	console.log('LISTENING ON localhost:3000');
+app.listen(process.env.PORT || 3000, function (req,res){
+	console.log('SERVER IS STARTING UP!');
 });
