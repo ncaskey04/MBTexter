@@ -48,23 +48,23 @@ app.get('/submit', function (req,res){
 
     request(ieUrl, function (error,response,body){
     var attitudeData = JSON.parse(body);
-    console.log(attitudeData);
+    //console.log(attitudeData);
     // res.render('results', {attitudeData: attitudeData});
 
       request(snUrl, function (error,response,body){
         var perceivingData = JSON.parse(body);
-        console.log(perceivingData);
+        // console.log(perceivingData);
         // res.render('results', {attitudeData: attitudeData, perceivingData: perceivingData});
 
         request(tfUrl, function (error,response,body){
           var  judgingData = JSON.parse(body);
-          console.log(judgingData);
+          // console.log(judgingData);
           // res.render('results', {attitudeData: attitudeData, perceivingData: perceivingData, judgingData: judgingData});
 
           request(jpUrl, function (error, response, body){
             var lifestyleData = JSON.parse(body);
-            console.log(lifestyleData);
-            // res.render('results', {attitudeData: attitudeData, perceivingData: perceivingData, judgingData: judgingData, lifestyleData: lifestyleData});
+            // console.log(lifestyleData);
+            res.render('results', {attitudeData: attitudeData, perceivingData: perceivingData, judgingData: judgingData, lifestyleData: lifestyleData});
           });
 
         });
