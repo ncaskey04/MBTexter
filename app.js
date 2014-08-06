@@ -46,11 +46,29 @@ app.get('/submit', function (req,res){
   var tfUrl = "http://uclassify.com/browse/prfekt/Myers%20Briggs%20Judging%20Function/ClassifyUrl?readkey=14KCtAbIA3D5KNDRIHYu0dUEOg&url=http%3a%2f%2fblog.uclassify.com&output=json";
   var jpUrl = "http://uclassify.com/browse/prfekt/Myers%20Briggs%20Lifestyle/ClassifyUrl?readkey=14KCtAbIA3D5KNDRIHYu0dUEOg&url=vajrapani666.tumblr.com&output=json";
 
-    request(ieUrl, function(error,response,body){
-    //console.log(body);
+    request(ieUrl, function (error,response,body){
     var attitudeData = JSON.parse(body);
+    console.log(attitudeData);
+    // res.render('results', {attitudeData: attitudeData});
 
-    res.render('results', {attitudeData: attitudeData});
+      request(snUrl, function (error,response,body){
+        var perceivingData = JSON.parse(body);
+        console.log(perceivingData);
+        // res.render('results', {attitudeData: attitudeData, perceivingData: perceivingData});
+
+        request(tfUrl, function (error,response,body){
+          var  judgingData = JSON.parse(body);
+          console.log(judgingData);
+          // res.render('results', {attitudeData: attitudeData, perceivingData: perceivingData, judgingData: judgingData});
+
+          request(jpUrl, function (error, response, body){
+            var lifestyleData = JSON.parse(body);
+            console.log(lifestyleData);
+            // res.render('results', {attitudeData: attitudeData, perceivingData: perceivingData, judgingData: judgingData, lifestyleData: lifestyleData});
+          });
+
+        });
+      });
   });
   
   
