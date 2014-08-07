@@ -14,6 +14,7 @@ var express = require('express'),
 // Middleware for handling forms and ejs
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static(__dirname, '/public'));
 
 
 // Set up cookieSession: encrypts and names cookies, sets timeout
@@ -59,14 +60,10 @@ app.get('/submit', function (req,res){
       }, 
       function(err, results){
         
-
-
-
-
-        var attitude = attitudeData.cls1,
-            perceiving = perceivingData.cls1,
-            judging = judgingData.cls1,
-            lifestyle = lifestyleData.cls1,
+        var attitude = results[0].cls1,
+            perceiving = results[1].cls1,
+            judging = results[2].cls1,
+            lifestyle = results[3].cls1,
             result = "";
 
             if(attitude.Introversion > attitude.Extroversion){
@@ -85,7 +82,7 @@ app.get('/submit', function (req,res){
               result += "J";
             } else { result += "P"; }
 
-            res.render('results', result);
+            res.render('results', {classification: result});
         }
     ); // ends async function
 }); // ends app.get for Home Route
