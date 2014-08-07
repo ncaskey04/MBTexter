@@ -5,8 +5,17 @@
     </head>
     <body>
 
+    	<% if(!isAuthenticated) { %>
+
+      <h1>Sorry, you must be <a href="/login"> logged in</a> to view this page</h1>
+
+      <%  } else { %>
+
     	<%= "The author is most likely an " + classification%>
+
+    	<% } %>
     
+      <p>Logout <a href="/logout">Here</a></p>
     </body>
   </html>
 

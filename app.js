@@ -150,7 +150,10 @@ app.get("/submit", function (req,res){
               result += "J";
             } else { result += "P"; }
               console.log(attitude, perceiving, judging, lifestyle, result);
-            res.render('results', {classification: result});
+            res.render('results', {
+              classification: result,
+              isAuthenticated: req.isAuthenticated() 
+            });
         }
     ); // ends async function
 }); // ends app.get for Home Route
