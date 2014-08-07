@@ -4,9 +4,65 @@
       <title>Results</title>
     </head>
     <body>
-    	<%= attitudeData.cls1.Introversion %>
-      <%= perceivingData.cls1.Sensing %>
-      <%= judgingData.cls1.Thinking %>
-      <%= lifestyleData.cls1.Perceiving %>
+    	<%= result %>
+      
     </body>
   </html>
+
+<!-- basic logic, do this 4 times (1 for each scale)
+
+if (key1 > key2 && key1 !== key2) {
+  return key1;
+} else return key2
+
+if (key1 === key2) {
+  return "X";
+}
+
+var results = ""
+
+if attitudeData.cls1.Introversion > Extroversion {
+  results += "I"
+} else {
+results += "E" }
+
+for each scale
+
+
+
+
+
+
+
+refactor of iterative / comparative logic 
+
+ var x = 0 
+
+function compare(key1, key2){ 
+ if (key1 > key2 && key1 !== key2){ 
+   return x = key1; 
+ } else return = key2;  
+
+ if (key1 === key2) { 
+   return x = "X";  
+ } 
+} 
+
+end result of render should be the greater scale with label
+(i.e. if sensing(0.9) > intuition(0.2), render "the author is the 'Sensing' type". If the values are exactly equal, render "X" for the scale).
+
+ideas for iteration over objects: for...in, for...of 
+
+potential problems: rendered results are strings...need to convert
+strings to numbers to compare with '>'
+
+-->
+
+
+
+
+
+
+
+
+

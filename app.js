@@ -37,10 +37,6 @@ app.get('/', function (req, res){
 // HOME ROUTES
 app.get('/submit', function (req,res){
 
-  // console.log(req.query.inputURL);
-  // var jpUrl = "http://uclassify.com/browse/prfekt/Myers%20Briggs%20Lifestyle/ClassifyUrl?readkey=14KCtAbIA3D5KNDRIHYu0dUEOg&url= " + query + " &output=json";
-  // var result = '{"version": "1.00","success": true,"statusCode": 2000, "errorMessage": "","cls1": {"Judging": 0.420306,"Perceiving": 0.579694}}';
-
   var query = req.query.inputURL;
   var ieUrl = "http://uclassify.com/browse/prfekt/Myers%20Briggs%20Attitude/ClassifyUrl?readkey=14KCtAbIA3D5KNDRIHYu0dUEOg&url=" + query + "&output=json";
   var snUrl = "http://uclassify.com/browse/prfekt/Myers%20Briggs%20Perceiving%20Function/ClassifyUrl?readkey=14KCtAbIA3D5KNDRIHYu0dUEOg&url=" + query + "&output=json";
@@ -55,16 +51,44 @@ app.get('/submit', function (req,res){
         tfUrl,
         jpUrl
       ], 
-      function(url, done){
+      function (url, done){
         request(url, function (error,response,body){
           var data = JSON.parse(body);
           done(null, data);
         });
       }, 
       function(err, results){
-        res.render('results', {attitudeData: results[0], perceivingData: results[1], judgingData: results[2], lifestyleData: results[3]});
-    });
-});
+        
+
+
+
+
+        var attitude = attitudeData.cls1,
+            perceiving = perceivingData.cls1,
+            judging = judgingData.cls1,
+            lifestyle = lifestyleData.cls1,
+            result = "";
+
+            if(attitude.Introversion > attitude.Extroversion){
+              result += "I";
+            } else { result += "E"; }
+
+            if(perceiving.Sensing > perceiving.iNtuition){
+              result += "S";
+            } else { result += "N"; }
+
+            if(judging.Thinking > judging.Feeling) {
+              result += "T";
+            } else { result += "F"; }
+
+            if(lifestyle.Judging > lifestyle.Perceiving){
+              result += "J";
+            } else { result += "P"; }
+
+            res.render('results', result);
+        }
+    ); // ends async function
+}); // ends app.get for Home Route
 
 
 // RESULTS ROUTES
