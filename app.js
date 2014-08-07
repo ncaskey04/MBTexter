@@ -65,8 +65,12 @@ app.get('/submit', function (req,res){
             judging = results[2].cls1,
             lifestyle = results[3].cls1,
             result = "";
+            console.log("Introversion")
+            console.log(attitude.Introversion)
+            console.log("Extroversion")
+            console.log(attitude.Extraversion)
 
-            if(attitude.Introversion > attitude.Extroversion){
+            if(attitude.Introversion > attitude.Extraversion){
               result += "I";
             } else { result += "E"; }
 
@@ -81,7 +85,7 @@ app.get('/submit', function (req,res){
             if(lifestyle.Judging > lifestyle.Perceiving){
               result += "J";
             } else { result += "P"; }
-
+              console.log(attitude, perceiving, judging, lifestyle, result);
             res.render('results', {classification: result});
         }
     ); // ends async function
