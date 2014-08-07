@@ -5,17 +5,84 @@
     </head>
     <body>
 
-    	<% if(!isAuthenticated) { %>
+      <% if(!isAuthenticated) { %>
+        <h1>Sorry, you must be <a href="/login"> logged in</a> to view this page</h1>
+      <% } else { %>
 
-      <h1>Sorry, you must be <a href="/login"> logged in</a> to view this page</h1>
+        
+          <p> 
+            The author is most likely an <%= classification %> 
+          </p>
+        
 
-      <%  } else { %>
-
-    	<%= "The author is most likely an " + classification%>
+        <% if (classification === "INFJ") {%>
+         <p> "This is the INFJ description" </p>
+        
+        <% } else if (classification === "INTJ") {%>
+         
+         <p> "This is the INTJ description" </p>
+        
+        <% } else if (classification === "INFP") {%>
+         
+         <p> "This is the INFP description" </p>
+        
+        <% } else if (classification === "INTP") {%>
+         
+         <p> "This is the INTP description" </p>
+        
+        <% } else if (classification === "ENFJ") {%>
+         
+         <p> "This is the ENFJ description" </p>
+        
+        <% } else if (classification === "ENTJ") {%>
+         
+         <p> "This is the ENTJ description" </p>
+        
+        <% } else if (classification === "ENFP") {%>
+         
+         <p> "This is the ENFP description" </p>
+        
+        <% } else if (classification === "ENTP") {%>
+         
+         <p> "This is the ENTP description" </p>
+        
+        <% } else if (classification === "ISFJ") {%>
+         
+         <p> "This is the ISFJ description" </p>
+        
+        <% } else if (classification === "ISTJ") {%>
+         
+         <p> "This is the ISTJ description" </p>
+        
+        <% } else if (classification === "ISFP") {%>
+         
+         <p> "This is the ISFP description" </p>
+        
+        <% } else if (classification === "ISFP") {%>
+         
+         <p> "This is the ISFP description" </p>
+        
+        <% } else if (classification === "ESFJ") {%>
+         
+         <p> "This is the ESFJ description" </p>
+        
+        <% } else if (classification === "ESFP") {%>
+         
+         <p> "This is the ESFP description" </p>
+        
+        <% } else if (classification === "ESTJ") {%>
+         
+         <p> "This is the ESTJ description" </p>
+        
+        <% } else if (classification === "ESTP") {%>
+         <p> "This is the ESTP description" </p>
+        
+        <% } %> 
 
     	<% } %>
     
       <p>Logout <a href="/logout">Here</a></p>
+
     </body>
   </html>
 
