@@ -14,6 +14,8 @@ var express = require('express'),
 // Middleware for handling forms and ejs
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
+
+// serves static files in public folder, like css
 app.use(express.static(__dirname, '/public'));
 
 
@@ -24,19 +26,16 @@ app.use(cookieSession({
   maxage: 3600000
 }));
 
-
 // start passport, session, and flash
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-
 
 // serialize function (store id at user login)
 passport.serializeUser(function(user, done){
   console.log("SERIALIZE JUST RAN");
   done(null, user.id);
 });
-
 
 // deserialize function (check user id for login, if not logged in end session...cookie explodes)
 passport.deserializeUser(function(id, done){
@@ -45,19 +44,68 @@ passport.deserializeUser(function(id, done){
     where: {
       id: id,
     }
-  }).complete(function(error, user){
+  }).complete(function (error, user){
     done(error, user);
   });
 });
 
+
 // INDEX ROUTES
 app.get('/', function (req, res){
+  if(!req.user){
   res.render('index');
+  } else {
+    res.render('home');
+  }
 });
 
 
+// SIGNUP ROUTES
+app.get('/signup', function (req,res){
+  if(!req.user){
+    res.render('signup', {username: ""});
+  } else {
+    res.render('home');
+  }
+});
+
+// create new user on sign up using form values
+app.post('/signup', function (req,res){
+  db.user.createNewUser(req.body.email, req.body.username, req.body.password, function(err){
+    res.render('signup',{message: err.message, email: req.body.email,username: req.body.username});
+  },
+  function(success){
+    res.render('index', {message: success.message});
+  }); // end success message
+});
+
+
+// LOGIN ROUTES
+app.get('/login', function (req,res){
+  if(!req.user){
+    res.render('login', {message: req.flash('Please log in'), username: ""});
+  } else {
+  res.render('home');
+  }
+});
+
+app.post('/login', passport.authenticate('local', {
+  successRedirect: '/home',
+  failureRedirect: '/login',
+  failureFlash: true
+}));
+
+
 // HOME ROUTES
-app.get('/submit', function (req,res){
+app.get('/home', function (req,res){
+  res.render('home', {
+    isAuthenticated: req.isAuthenticated(),
+    user: req.user
+    });
+});
+
+// API data handler
+app.get("/submit", function (req,res){
 
   var query = req.query.inputURL;
   var ieUrl = "http://uclassify.com/browse/prfekt/Myers%20Briggs%20Attitude/ClassifyUrl?readkey=14KCtAbIA3D5KNDRIHYu0dUEOg&url=" + query + "&output=json";
@@ -66,7 +114,6 @@ app.get('/submit', function (req,res){
   var jpUrl = "http://uclassify.com/browse/prfekt/Myers%20Briggs%20Lifestyle/ClassifyUrl?readkey=14KCtAbIA3D5KNDRIHYu0dUEOg&url=" + query + "&output=json";
 
     // refactored api request using async
-
     async.map([
         ieUrl,
         snUrl,
@@ -112,53 +159,22 @@ app.get('/submit', function (req,res){
 // RESULTS ROUTES
 app.get('/results', function (req,res){
   res.render('results', {
-    isAuthenticated: req.isAuthenticated()
+    isAuthenticated: req.isAuthenticated(),
+    user: req.user
   });
 });
 
 
-// SIGNUP ROUTES
-app.get('/signup', function (req,res){
-  res.render('signup');
-});
-
-// create new user on sign up using form values
-app.post('/signup', function (req,res){
-  db.user.createNewUser(req.body.email, req.body.username, req.body.password, function(err){
-    res.render('signup',{message: err.message, email: req.body.email,username: req.body.username});
-  },
-  function(success){
-    res.render('index', {message: success.message});
-  }); // end success message
-});
-
-// HOME ROUTES
-app.get('/home', function (req,res){
-  res.render('home', {
-    isAuthenticated: req.isAuthenticated()
-    });
-});
-
-// LOGIN ROUTES
-app.get('/login', function (req,res){
-  res.render('login');
-});
-
-app.post('/login', passport.authenticate('local', {
-  successRedirect: '/home',
-  failureRedirect: '/login',
-  failureFlash: true
-}));
-
-
-// LOGOUT ROUTES
+// LOGOUT ROUTE
 app.get('/logout', function(req,res){
   req.logout();
   res.redirect('/');
 });
 
-// 404 ROUTES
+
+// 404 ROUTE
 app.get('*', function (req, res){
+  res.status(404);
   res.render('404');
 });
 

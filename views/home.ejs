@@ -6,9 +6,13 @@
     <body>
 
       <% if(!isAuthenticated) { %>
+
       <h1>Sorry, you must be <a href="/login"> logged in</a> to view this page</h1>
+
       <%  } else { %>
-      <h1>Enter A Blog</h1>
+
+      <h1>Hello, <%= user.username %> - Enter a blog to get started</h1>
+
       <form action="/submit" id="classifyText">
 
         <p>
