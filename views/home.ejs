@@ -4,6 +4,10 @@
       <title>Home Page</title>
     </head>
     <body>
+
+      <% if(!isAuthenticated) { %>
+      <h1>Sorry, you must be <a href="/login"> logged in</a> to view this page</h1>
+      <%  } else { %>
       <h1>Enter A Blog</h1>
       <form action="/submit" id="classifyText">
 
@@ -14,5 +18,6 @@
         </p>
 
       </form>
+      <% } %>
     </body>
   </html>

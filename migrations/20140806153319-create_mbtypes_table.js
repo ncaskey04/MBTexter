@@ -9,7 +9,7 @@ module.exports = {
       },
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
-      mbtype: DataTypes.STRING,
+      type: DataTypes.STRING,
       description: DataTypes.TEXT
     })
     .complete(done);

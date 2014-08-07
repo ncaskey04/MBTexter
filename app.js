@@ -9,7 +9,7 @@ var express = require('express'),
     request = require('request'),
     async = require('async'),
     app = express();
-    // db = require('./models/index');
+    db = require('./models/index');
 
 // Middleware for handling forms and ejs
 app.set('view engine', 'ejs');
@@ -18,16 +18,37 @@ app.use(express.static(__dirname, '/public'));
 
 
 // Set up cookieSession: encrypts and names cookies, sets timeout
+app.use(cookieSession({
+  secret: 'thisismysecretkey',
+  name: 'Nicks cookie',
+  maxage: 3600000
+}));
 
 
 // start passport, session, and flash
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
 
 
 // serialize function (store id at user login)
+passport.serializeUser(function(user, done){
+  console.log("SERIALIZE JUST RAN");
+  done(null, user.id);
+});
 
 
 // deserialize function (check user id for login, if not logged in end session...cookie explodes)
-
+passport.deserializeUser(function(id, done){
+  console.log('deserialize just ran');
+  db.user.find({
+    where: {
+      id: id,
+    }
+  }).complete(function(error, user){
+    done(error, user);
+  });
+});
 
 // INDEX ROUTES
 app.get('/', function (req, res){
@@ -65,10 +86,6 @@ app.get('/submit', function (req,res){
             judging = results[2].cls1,
             lifestyle = results[3].cls1,
             result = "";
-            console.log("Introversion")
-            console.log(attitude.Introversion)
-            console.log("Extroversion")
-            console.log(attitude.Extraversion)
 
             if(attitude.Introversion > attitude.Extraversion){
               result += "I";
@@ -94,7 +111,9 @@ app.get('/submit', function (req,res){
 
 // RESULTS ROUTES
 app.get('/results', function (req,res){
-  res.render('results');
+  res.render('results', {
+    isAuthenticated: req.isAuthenticated()
+  });
 });
 
 
@@ -103,23 +122,40 @@ app.get('/signup', function (req,res){
   res.render('signup');
 });
 
+// create new user on sign up using form values
 app.post('/signup', function (req,res){
-  res.render('signup');
+  db.user.createNewUser(req.body.email, req.body.username, req.body.password, function(err){
+    res.render('signup',{message: err.message, email: req.body.email,username: req.body.username});
+  },
+  function(success){
+    res.render('index', {message: success.message});
+  }); // end success message
 });
 
+// HOME ROUTES
+app.get('/home', function (req,res){
+  res.render('home', {
+    isAuthenticated: req.isAuthenticated()
+    });
+});
 
 // LOGIN ROUTES
 app.get('/login', function (req,res){
   res.render('login');
 });
 
-app.post('/login', function (req,res){
-  res.render('home');
-});
+app.post('/login', passport.authenticate('local', {
+  successRedirect: '/home',
+  failureRedirect: '/login',
+  failureFlash: true
+}));
 
 
 // LOGOUT ROUTES
-
+app.get('/logout', function(req,res){
+  req.logout();
+  res.redirect('/');
+});
 
 // 404 ROUTES
 app.get('*', function (req, res){

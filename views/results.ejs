@@ -4,8 +4,13 @@
       <title>Results</title>
     </head>
     <body>
-    	<%= "The author is most likely an " + classification %>
+    <% if(!isAuthenticated) { %>
+      <h1>Sorry, you must be <a href="/login"> logged in</a> to view this page</h1>
       
+      <%  } else { %>
+
+    	<%= "The author is most likely an " + classification %>
+      <%  } %>
     </body>
   </html>
 

@@ -9,9 +9,24 @@ module.exports = {
       },
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
-      username: DataTypes.STRING,
-      password: DataTypes.STRING,
-      email: DataTypes.STRING
+      username: {
+        type: DataTypes.STRING,
+        unique: true,
+        allowNull: false
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false
+      }, 
+      email: {
+        type: DataTypes.STRING,
+        unique: true,
+        allowNull: false
+      }, 
+      typeID: {
+        type: DataTypes.INTEGER,
+        foreignKey: true
+      }
     })
     .complete(done);
   },
