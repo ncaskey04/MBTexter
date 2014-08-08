@@ -9,9 +9,13 @@
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
-  "production": {
-    "database": "mbtexter_production",
-    "host": "127.0.0.1",
-    "dialect": "postgres"
+  "production": 
+  {
+    "dialect": "postgres",
+    "username": "fdyqiktivzfwis",
+    "password": "nJgzNSH1bspniUwxTRgVVtyW9e",
+    "host": "ec2-174-129-197-200.compute-1.amazonaws.com",
+    "port": "5432",
+    "database": "d75ia8f34aa31i"
   }
 }

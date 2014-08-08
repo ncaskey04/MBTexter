@@ -32,7 +32,7 @@
     "passport-local": "^1.0.0",
     "pg": "^3.4.0",
     "request": "^2.39.0",
-    "sequelize": "^1.7.9",
+    "sequelize": "2.0",
     "sequelize-cli": "^0.2.3",
     "supertest": "^0.13.0"
   },
