@@ -1,22 +1,32 @@
-<!DOCTYPE html>
-  <html>
-    <head>
-      <title>Home Page</title>
-    </head>
-    <body>
+<script type="text/javascript">
+ function tellme(){ 
+  var regex = /[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?$/;
 
-      
-      
-    
-      <form action="/submit" id="classifyText">
+  var text = document.getElementById("input").value;
+
+ if(regex.exec(text) === null) {
+  alert("invalid URL");
+  return false;
+ } 
+ else {
+  return true;
+ }
+  }
+</script>
+
+<% include partials/header.ejs %>
+  
+
+      <form action="/submit" id="classifyText" onsubmit= "return tellme()">
 
         <p>
           <label for="url">http://</label>
-          <input type="text area" name="inputURL" id="input">
+          <input type="text area" name="inputURL" id="input" required>
           <input type="submit" value="Typealyze!" class="btn btn-primary">
         </p>
 
       </form>
       
-    </body>
-  </html>
+      <p>Log Out <a href="/logout">Here</a></p>
+
+<% include partials/header.ejs %>

@@ -28,4 +28,3 @@ node_modules
 uCLASSIFY_READ_KEY: '14KCtAbIA3D5KNDRIHYu0dUEOg',
 uCLASSIFY_WRITE_KEY: 'LmepMuDTsDZsu3BXlsVJPvFhI'
 secret: 'thisismysecretkey'
-config.json

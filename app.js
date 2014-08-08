@@ -122,17 +122,28 @@ app.get("/submit", function (req,res){
       ], 
       function (url, done){
         request(url, function (error,response,body){
+          if(error){
+            console.log("SOMETHING BROKE IN OUR API REQUEST!");
+            console.log(error);
+          }
           var data = JSON.parse(body);
           done(null, data);
         });
       }, 
       function(err, results){
+        if(err){
+          console.log("ANOTHER ERROR IN ASYNC");
+          console.log(err);
+        }
         
         var attitude = results[0].cls1,
             perceiving = results[1].cls1,
             judging = results[2].cls1,
             lifestyle = results[3].cls1,
             result = "";
+
+            
+            
 
             if(attitude.Introversion > attitude.Extraversion){
               result += "I";
