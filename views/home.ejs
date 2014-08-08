@@ -1,9 +1,11 @@
 <script type="text/javascript">
+// checks url string...
  function tellme(){ 
   var regex = /[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?$/;
 
   var text = document.getElementById("input").value;
 
+ // if the url is not valid, throw the alert, else return the result
  if(regex.exec(text) === null) {
   alert("invalid URL");
   return false;
@@ -15,6 +17,8 @@
 </script>
 
 <% include partials/header.ejs %>
+
+      <h1>Enter a URL to get started:</h1>
   
       <form action="/submit" id="classifyText" onsubmit= "return tellme()">
 

@@ -142,9 +142,6 @@ app.get("/submit", function (req,res){
             lifestyle = results[3].cls1,
             result = "";
 
-            
-            
-
             if(attitude.Introversion > attitude.Extraversion){
               result += "I";
             } else { result += "E"; }
