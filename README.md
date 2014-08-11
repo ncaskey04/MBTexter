@@ -9,7 +9,7 @@ Learn more about your favorite web author by entering a web address. The author'
 
 ## Motivation
 
-
+Psychology plays a large role in who we are, how we see others, and what we do. This is especially true with activites like writing on the web. MBTexter takes a closer look at the relationship between personality types and web authors.
 
 ## Built With:
 * node.js
